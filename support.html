@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eight Force</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* ANIMATIONS */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+
+    .fade-up.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .glow:hover {
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    }
+
+    /* BACKGROUND HIDUP (LEBIH HALUS + AMAN HP) */
+    body::before,
+    body::after {
+      content: '';
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      filter: blur(120px);
+      z-index: -1;
+      opacity: 0.6;
+    }
+
+    body::before {
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.4), transparent);
+      top: -100px;
+      left: -100px;
+    }
+
+    body::after {
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.4), transparent);
+      bottom: -100px;
+      right: -100px;
+    }
+
+    /* NOMINAL BUTTON */
+    .nom-btn {
+      padding: 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    /* HOVER */
+    .nom-btn:hover {
+      background: #22d3ee;
+      color: black;
+      transform: translateY(-2px);
+    }
+
+    /* ACTIVE CLICK */
+    .nom-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* SELECTED */
+    .nom-btn.active {
+      background: #22d3ee;
+      color: black;
+      box-shadow: 0 0 15px rgba(34, 211, 238, 0.6);
+    }
+
+    /* BUTTON DISABLED */
+    .disabled-btn {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+      /* INI PENTING BIAR GA BISA DIKLIK */
+    }
+  </style>
+</head>
+
+<body class="bg-black text-white overflow-x-hidden">
+
+  <nav class="fixed w-full z-50 bg-black/70 backdrop-blur-xl border-b border-white/10">
+    <div class="flex justify-between items-center px-6 md:px-16 py-5">
+
+      <h1 class="text-xl font-bold tracking-widest">EIGHT FORCE</h1>
+
+      <ul class="hidden md:flex items-center gap-10 text-sm text-gray-300">
+        <li><a href="index.html" class="hover:text-cyan-400">Home</a></li>
+        <li><a href="anggota.html" class="hover:text-cyan-400">Anggota</a></li>
+        <li><a href="game.html" class="hover:text-cyan-400">Game</a></li>
+        <li><a href="gallery.html" class="hover:text-cyan-400">Gallery</a></li>
+        <li><a href="saran.html" class="hover:text-cyan-400">Saran</a></li>
+        <li><a href="support.html" class="text-cyan-400 border-b border-cyan-400 pb-1">Support</a></li>
+      </ul>
+
+      <div class="hidden md:flex flex-col items-center gap-2">
+        <span class="text-xs text-gray-400">Find With Me</span>
+        <div class="flex gap-4 text-lg">
+          <i class="fab fa-tiktok hover:text-cyan-400"></i>
+          <i class="fab fa-youtube hover:text-cyan-400"></i>
+          <i class="fab fa-instagram hover:text-cyan-400"></i>
+          <i class="fab fa-discord hover:text-cyan-400"></i>
+          <i class="fab fa-whatsapp hover:text-cyan-400"></i>
+        </div>
+      </div>
+
+      <button id="menuBtn" class="md:hidden text-2xl">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- SIDEBAR (SAMA PERSIS) -->
+  <div id="sidebar"
+    class="fixed top-0 left-[-100%] w-64 h-full bg-black border-r border-white/10 p-6 transition-all duration-500 z-50 flex flex-col justify-between">
+
+    <!-- HEADER -->
+    <div>
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-lg font-bold tracking-widest">EIGHT FORCE</h1>
+        <button id="closeBtn" class="text-xl">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- MENU -->
+      <ul class="text-gray-300 text-sm">
+
+        <li class="border-b border-white/10 py-4">
+          <a href="index.html" class="block hover:text-cyan-400 transition">Home</a>
+        </li>
+
+        <li class="border-b border-white/10 py-4">
+          <a href="anggota.html" class="block hover:text-cyan-400 transition">Anggota</a>
+        </li>
+
+        <li class="border-b border-white/10 py-4">
+          <a href="game.html" class="block hover:text-cyan-400 transition">Game</a>
+        </li>
+
+        <li class="border-b border-white/10 py-4">
+          <a href="gallery.html" class="block hover:text-cyan-400 transition">Gallery</a>
+        </li>
+
+        <li class="border-b border-white/10 py-4">
+          <a href="saran.html" class="block hover:text-cyan-400 transition">Saran</a>
+        </li>
+
+        <li class="border-b border-white/10 py-4">
+          <a href="support.html" class="block text-cyan-400">Support</a>
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="mt-10">
+      <p class="text-xs text-gray-400 mb-4">Find With Me</p>
+
+      <div class="flex justify-between text-xl px-2">
+        <i class="fab fa-tiktok hover:text-cyan-400 transition"></i>
+        <i class="fab fa-youtube hover:text-cyan-400 transition"></i>
+        <i class="fab fa-instagram hover:text-cyan-400 transition"></i>
+        <i class="fab fa-discord hover:text-cyan-400 transition"></i>
+        <i class="fab fa-whatsapp hover:text-cyan-400 transition"></i>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= SUPPORT UI FIX ================= -->
+  <section class="pt-32 pb-20 px-4 flex justify-center">
+
+    <div class="w-full max-w-xl bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-6 shadow-lg">
+
+      <h2 class="text-xl font-bold text-center">Dukung Creator 💙</h2>
+
+      <!-- NOMINAL -->
+      <div class="space-y-3">
+        <p class="font-semibold">Nominal</p>
+
+        <input id="nominal" type="number" placeholder="Masukkan nominal"
+          class="w-full p-3 rounded-lg bg-black/50 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+
+        <div class="grid grid-cols-3 gap-3">
+          <button onclick="setNominal(10000, this)" class="nom-btn">10K</button>
+          <button onclick="setNominal(50000, this)" class="nom-btn">50K</button>
+          <button onclick="setNominal(100000, this)" class="nom-btn">100K</button>
+          <button onclick="setNominal(200000, this)" class="nom-btn col-span-3">200K</button>
+        </div>
+      </div>
+
+      <!-- PESAN -->
+      <div class="space-y-2">
+        <p class="font-semibold">Pesan</p>
+        <textarea id="pesan" maxlength="250"
+          class="w-full p-3 rounded-lg bg-black/50 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400"></textarea>
+        <p class="text-right text-xs text-gray-400" id="count">0 / 250</p>
+      </div>
+
+      <!-- NAMA -->
+      <div class="space-y-2">
+        <p class="font-semibold">Nama</p>
+        <input id="nama" type="text" value="Someone" class="w-full p-3 rounded-lg bg-black/50 border border-white/10">
+
+        <label class="flex items-center gap-2 text-sm text-gray-400">
+          <input type="checkbox" onchange="anon(this)"> Anonim
+        </label>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="space-y-2">
+        <p class="font-semibold">Email</p>
+        <input type="email" placeholder="email@gmail.com"
+          class="w-full p-3 rounded-lg bg-black/50 border border-white/10">
+
+        <label class="flex items-center gap-2 text-sm text-gray-400">
+          <input type="checkbox"> Sembunyikan email dari Davin
+        </label>
+      </div>
+
+      <div class="space-y-2 text-sm text-gray-400">
+        <label class="flex gap-2">
+          <input type="checkbox" id="check1" onchange="validateForm()">
+          Dengan ini saya menyatakan transaksi ini: murni dukungan saya untuk Davin, tidak dapat dikembalikan, bukan
+          untuk transaksi komersial, bukan untuk aktivitas ilegal apa pun, tidak melanggar ketentuan
+        </label>
+
+        <label class="flex gap-2">
+          <input type="checkbox" id="check2" onchange="validateForm()">
+          Saya sudah berusia 18+
+        </label>
+      </div>
+
+      <button id="donasiBtn" onclick="submitDonasi()"
+        class="w-full bg-cyan-400 text-black p-3 rounded-lg font-bold transition disabled-btn">
+        Lanjut Pembayaran
+      </button>
+
+    </div>
+
+  </section>
+<div id="qrisModal" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
+
+  <div class="bg-white text-black rounded-2xl p-6 w-[90%] max-w-sm text-center space-y-4">
+
+    <h2 class="text-lg font-bold">Scan untuk bayar</h2>
+
+    <!-- GANTI INI DENGAN QR LU -->
+    <img src="Qr-dana.jpeg" class="mx-auto w-48">
+
+    <p class="text-sm text-gray-500">Scan pakai Dana / OVO / QRIS</p>
+
+    <button onclick="closeQR()" class="text-red-500 text-sm">
+      Tutup
+    </button>
+
+  </div>
+
+</div>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const sidebar = document.getElementById("sidebar");
+    const closeBtn = document.getElementById("closeBtn");
+
+    menuBtn.onclick = () => sidebar.style.left = "0";
+    closeBtn.onclick = () => sidebar.style.left = "-100%";
+
+    /* ANIMASI SCROLL */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      })
+    });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+
+
+    const pesan = document.getElementById('pesan');
+    pesan.addEventListener('input', () => {
+      document.getElementById('count').innerText = pesan.value.length + ' / 250';
+    });
+
+    function anon(cb) {
+      const nama = document.getElementById('nama');
+      if (cb.checked) {
+        nama.value = 'Anonim';
+      } else {
+        nama.value = 'Someone';
+      }
+    }
+
+    let selectedNominal = null;
+
+    function setNominal(val) {
+      const buttons = document.querySelectorAll('.nom-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+
+      document.getElementById('nominal').value = val;
+      selectedNominal = val;
+
+      validateForm();
+    }
+
+    function validateForm() {
+      const nominal = document.getElementById('nominal').value;
+      const c1 = document.getElementById('check1').checked;
+      const c2 = document.getElementById('check2').checked;
+      const btn = document.getElementById('donasiBtn');
+
+      if (nominal && c1 && c2) {
+        btn.classList.remove('disabled-btn');
+      } else {
+        btn.classList.add('disabled-btn');
+      }
+    }
+
+    document.getElementById('nominal').addEventListener('input', validateForm);
+
+   function submitDonasi(){
+  const nominal = document.getElementById('nominal').value;
+  const c1 = document.getElementById('check1').checked;
+  const c2 = document.getElementById('check2').checked;
+
+  if(!nominal){
+    alert('Isi nominal dulu');
+    return;
+  }
+
+  if(!c1 || !c2){
+    alert('Centang semua persetujuan dulu');
+    return;
+  }
+
+  // TAMPILKAN QR
+  const modal = document.getElementById('qrisModal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+function closeQR(){
+  const modal = document.getElementById('qrisModal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+}
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eight Force</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+html { scroll-behavior: smooth; }
+
+/* ANIMATIONS */
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.glow:hover {
+  box-shadow: 0 0 20px rgba(0,255,255,0.5);
+}
+</style>
+</head>
+
+<body class="bg-black text-white overflow-x-hidden">
+
+<nav class="fixed w-full z-50 bg-black/70 backdrop-blur-xl border-b border-white/10">
+  <div class="flex justify-between items-center px-6 md:px-16 py-5">
+
+    <h1 class="text-xl font-bold tracking-widest">EIGHT FORCE</h1>
+
+    <ul class="hidden md:flex items-center gap-10 text-sm text-gray-300">
+      <li><a href="index.html" class="text-cyan-400 border-b border-cyan-400 pb-1">Home</a></li>
+      <li><a href="anggota.html" class="hover:text-cyan-400">Anggota</a></li>
+      <li><a href="game.html" class="hover:text-cyan-400">Game</a></li>
+      <li><a href="gallery.html" class="hover:text-cyan-400">Gallery</a></li>
+      <li><a href="saran.html" class="hover:text-cyan-400">Saran</a></li>
+      <li><a href="support.html" class="hover:text-cyan-400">Support</a></li>
+    </ul>
+
+    <div class="hidden md:flex flex-col items-center gap-2">
+      <span class="text-xs text-gray-400">Find With Me</span>
+      <div class="flex gap-4 text-lg">
+        <i class="fab fa-tiktok hover:text-cyan-400"></i>
+        <i class="fab fa-youtube hover:text-cyan-400"></i>
+        <i class="fab fa-instagram hover:text-cyan-400"></i>
+        <i class="fab fa-discord hover:text-cyan-400"></i>
+        <i class="fab fa-whatsapp hover:text-cyan-400"></i>
+      </div>
+    </div>
+
+    <button id="menuBtn" class="md:hidden text-2xl">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- SIDEBAR (SAMA PERSIS) -->
+<div id="sidebar" class="fixed top-0 left-[-100%] w-64 h-full bg-black border-r border-white/10 p-6 transition-all duration-500 z-50 flex flex-col justify-between">
+
+  <!-- HEADER -->
+  <div>
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-lg font-bold tracking-widest">EIGHT FORCE</h1>
+      <button id="closeBtn" class="text-xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- MENU -->
+    <ul class="text-gray-300 text-sm">
+
+      <li class="border-b border-white/10 py-4">
+        <a href="index.html" class="block text-cyan-400">Home</a>
+      </li>
+
+      <li class="border-b border-white/10 py-4">
+        <a href="anggota.html" class="block hover:text-cyan-400 transition">Anggota</a>
+      </li>
+
+      <li class="border-b border-white/10 py-4">
+        <a href="game.html" class="block hover:text-cyan-400 transition">Game</a>
+      </li>
+
+      <li class="border-b border-white/10 py-4">
+        <a href="gallery.html" class="block hover:text-cyan-400 transition">Gallery</a>
+      </li>
+
+      <li class="border-b border-white/10 py-4">
+        <a href="saran.html" class="block hover:text-cyan-400 transition">Saran</a>
+      </li>
+
+      <li class="border-b border-white/10 py-4">
+        <a href="support.html" class="block hover:text-cyan-400 transition">Support</a>
+      </li>
+
+    </ul>
+  </div>
+
+  <!-- SOCIAL -->
+  <div class="mt-10">
+    <p class="text-xs text-gray-400 mb-4">Find With Me</p>
+
+    <div class="flex justify-between text-xl px-2">
+      <i class="fab fa-tiktok hover:text-cyan-400 transition"></i>
+      <i class="fab fa-youtube hover:text-cyan-400 transition"></i>
+      <i class="fab fa-instagram hover:text-cyan-400 transition"></i>
+      <i class="fab fa-discord hover:text-cyan-400 transition"></i>
+      <i class="fab fa-whatsapp hover:text-cyan-400 transition"></i>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- HERO -->
+<section class="h-screen flex flex-col justify-center items-center text-center relative">
+  <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 blur-3xl"></div>
+
+  <h1 class="text-6xl md:text-8xl font-extrabold bg-gradient-to-r from-cyan-400 to-purple-500 text-transparent bg-clip-text fade-up">
+    Eight Force
+  </h1>
+
+  <p class="mt-4 text-gray-400 fade-up">
+    Tempat tongkrongan digital yang sekadar nongkrong.
+  </p>
+</section>
+
+<!-- ABOUT -->
+<section class="py-20 px-6 text-center fade-up">
+  <h2 class="text-3xl font-bold mb-4">Tentang Kita</h2>
+  <p class="text-gray-400 max-w-xl mx-auto">
+   Website ini dibuat sebagai Tempat buat cerita, bermain, ketawa, dan nostalgia 
+  </p>
+</section>
+
+<!-- FEATURES -->
+<section class="px-6 md:px-16 py-20 grid md:grid-cols-4 gap-6">
+    <div class="bg-white/10 p-12 rounded-2xl text-center glow fade-up">
+    <h3 class="text-2xl font-semibold mb-3">🎮 Game</h3>
+   <p class="text-base text-gray-400">Main bareng biar makin dekat.</p>
+  </div>
+
+<div class="bg-white/5 p-12 rounded-2xl text-center glow fade-up">
+     <h3 class="text-2xl font-semibold mb-3">🍜 Nongkrong</h3>
+    <p class="text-base text-gray-400">Cerita random tapi ngena.</p>
+  </div>
+
+<div class="bg-white/5 p-12 rounded-2xl text-center glow fade-up">
+    <h3 class="text-xl mb-2">📸 Kenangan</h3>
+    <p class="text-base text-gray-400">Flashback masa seru.</p>
+  </div>
+
+<div class="bg-white/5 p-12 rounded-2xl text-center glow fade-up">
+    <h3 class="text-xl mb-2">💬 Community</h3>
+    <p class="text-base text-gray-400">Semua nyatu disini.</p>
+  </div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="px-10 md:px-24 py-28 grid md:grid-cols-2 gap-10">
+
+  <div class="bg-gradient-to-br from-cyan-500/10 to-purple-500/10 p-10 rounded-2xl fade-up">
+    <h1 class="text-6xl text-cyan-400">10+</h1>
+    <h2 class="text-2xl mt-2">Years Of Memories</h2>
+    <p class="text-gray-400 mt-2">Perjalanan panjang penuh cerita.</p>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4">
+    <div class="bg-white/5 p-6 rounded-xl glow fade-up">GAMING</div>
+    <div class="bg-white/5 p-6 rounded-xl glow fade-up">NONGKRONG</div>
+    <div class="bg-white/5 p-6 rounded-xl glow fade-up">KENANGAN</div>
+    <div class="bg-white/5 p-6 rounded-xl glow fade-up">COMMUNITY</div>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 text-center border-t border-white/10">
+  <h2 class="text-xl font-bold mb-2">Eight Force</h2>
+  <p class="text-gray-400 text-sm">Tempat tongkrongan digital terbaik.</p>
+  <div class="flex justify-center gap-6 mt-4 text-xl">
+    <i class="fab fa-tiktok hover:text-cyan-400"></i>
+    <i class="fab fa-youtube hover:text-cyan-400"></i>
+    <i class="fab fa-instagram hover:text-cyan-400"></i>
+    <i class="fab fa-discord hover:text-cyan-400"></i>
+    <i class="fab fa-whatsapp hover:text-cyan-400"></i>
+  </div>
+</footer>
+
+<script>
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+const closeBtn = document.getElementById("closeBtn");
+
+menuBtn.onclick = () => sidebar.style.left = "0";
+closeBtn.onclick = () => sidebar.style.left = "-100%";
+
+// SCROLL ANIMATION
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('show');
+    }
+  })
+})
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

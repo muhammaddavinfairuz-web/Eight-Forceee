@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery - Eight Force</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+html { scroll-behavior: smooth; }
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+.fade-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* SCROLL SLIDER */
+.scroll-x {
+  overflow-x: auto;
+  display: flex;
+  gap: 16px;
+  padding-bottom: 10px;
+}
+.scroll-x::-webkit-scrollbar {
+  height: 6px;
+}
+.scroll-x::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 10px;
+}
+/* BINTANG ANIMASI */
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+    pointer-events: none; /* 🔥 INI KUNCI NYA */
+}
+
+.stars span {
+  position: absolute;
+  top: -20px;
+
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+
+  box-shadow: 0 0 10px white, 0 0 20px white;
+
+  animation: jatuh 5s linear infinite;
+}
+
+/* EKOR BINTANG */
+.stars span::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 50%;
+
+  width: 2px;
+  height: 20px;
+
+  background: linear-gradient(white, transparent);
+  transform: translateX(-50%);
+}
+
+@keyframes jatuh {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(50px);
+    opacity: 0;
+  }
+}
+.glow-bg {
+  animation: glowBg 6s ease-in-out infinite alternate;
+}
+
+@keyframes glowBg {
+  0% { background-color: rgba(0,0,0,1); }
+  100% { background-color: rgba(0,0,50,1); }
+  
+}/* FIREWORK LEDAKAN REAL */
+.firework {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+.firework span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0;
+
+  animation: explode 1s ease-out infinite;
+}
+
+/* ARAH LEDAKAN */
+.firework span:nth-child(1) { transform: rotate(0deg) translateY(-40px); }
+.firework span:nth-child(2) { transform: rotate(45deg) translateY(-40px); }
+.firework span:nth-child(3) { transform: rotate(90deg) translateY(-40px); }
+.firework span:nth-child(4) { transform: rotate(135deg) translateY(-40px); }
+.firework span:nth-child(5) { transform: rotate(180deg) translateY(-40px); }
+.firework span:nth-child(6) { transform: rotate(225deg) translateY(-40px); }
+.firework span:nth-child(7) { transform: rotate(270deg) translateY(-40px); }
+.firework span:nth-child(8) { transform: rotate(315deg) translateY(-40px); }
+
+@keyframes explode {
+  0% {
+    transform: scale(0) rotate(var(--r)) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(var(--r)) translateY(-60px);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body class="bg-black text-white overflow-x-hidden">
+
+<nav class="fixed w-full z-50 bg-black/70 backdrop-blur-xl border-b border-white/10">
+  <div class="flex justify-between items-center px-6 md:px-16 py-5">
+
+    <h1 class="text-xl font-bold tracking-widest">EIGHT FORCE</h1>
+
+    <ul class="hidden md:flex items-center gap-10 text-sm text-gray-300">
+      <li><a href="index.html" class="hover:text-cyan-400">Home</a></li>
+      <li><a href="anggota.html" class="hover:text-cyan-400">Anggota</a></li>
+      <li><a href="game.html" class="hover:text-cyan-400">Game</a></li>
+      <li><a href="gallery.html" class="text-cyan-400 border-b border-cyan-400 pb-1">Gallery</a></li>
+      <li><a href="saran.html" class="hover:text-cyan-400">Saran</a></li>
+      <li><a href="support.html" class="hover:text-cyan-400">Support</a></li>
+    </ul>
+
+    <!-- ICON KANAN -->
+    <div class="hidden md:flex flex-col items-center gap-2">
+      <span class="text-xs text-gray-400">Find With Me</span>
+      <div class="flex gap-4 text-lg">
+        <i class="fab fa-tiktok hover:text-cyan-400"></i>
+        <i class="fab fa-youtube hover:text-cyan-400"></i>
+        <i class="fab fa-instagram hover:text-cyan-400"></i>
+        <i class="fab fa-discord hover:text-cyan-400"></i>
+        <i class="fab fa-whatsapp hover:text-cyan-400"></i>
+      </div>
+    </div>
+
+    <!-- TOGGLE -->
+    <button id="menuBtn" class="md:hidden text-2xl">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</nav>
+
+<div id="sidebar" class="fixed top-0 left-[-100%] w-64 h-full bg-black border-r border-white/10 p-6 transition-all duration-500 z-50 flex flex-col justify-between">
+
+  <div>
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-lg font-bold tracking-widest">EIGHT FORCE</h1>
+      <button id="closeBtn" class="text-xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <ul class="text-gray-300 text-sm">
+      <li class="border-b border-white/10 py-4">
+        <a href="index.html" class="block hover:text-cyan-400">Home</a>
+      </li>
+      <li class="border-b border-white/10 py-4">
+        <a href="anggota.html" class="block hover:text-cyan-400">Anggota</a>
+      </li>
+      <li class="border-b border-white/10 py-4">
+        <a href="game.html" class="block hover:text-cyan-400">Game</a>
+      </li>
+      <li class="border-b border-white/10 py-4">
+        <a href="gallery.html" class="block text-cyan-400">Gallery</a>
+      </li>
+      <li class="border-b border-white/10 py-4">
+        <a href="saran.html" class="block hover:text-cyan-400">Saran</a>
+      </li>
+      <li class="border-b border-white/10 py-4">
+        <a href="support.html" class="block hover:text-cyan-400">Support</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="mt-10">
+    <p class="text-xs text-gray-400 mb-4">Find With Me</p>
+    <div class="flex justify-between text-xl px-2">
+      <i class="fab fa-tiktok hover:text-cyan-400"></i>
+      <i class="fab fa-youtube hover:text-cyan-400"></i>
+      <i class="fab fa-instagram hover:text-cyan-400"></i>
+      <i class="fab fa-discord hover:text-cyan-400"></i>
+      <i class="fab fa-whatsapp hover:text-cyan-400"></i>
+    </div>
+  </div>
+
+</div>
+
+<!-- HERO -->
+<section class="h-screen flex flex-col justify-center items-center text-center relative">
+  <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 blur-3xl"></div>
+
+  <h1 class="text-6xl md:text-8xl font-extrabold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text fade-up">
+    Gallery Memories
+  </h1>
+
+  <p class="mt-4 text-gray-400 fade-up">
+    Semua momen terbaik kita ada disini 📸
+  </p>
+</section>
+
+<section class="relative px-6 md:px-20 py-24 bg-gradient-to-b from-black to-green-900/20 overflow-hidden">
+
+<div class="stars">
+  <span style="left:10%; animation-duration:4s; animation-delay:0s;"></span>
+<span style="left:20%; animation-duration:6s; animation-delay:2s;"></span>
+<span style="left:30%; animation-duration:5s; animation-delay:1s;"></span>
+<span style="left:40%; animation-duration:7s; animation-delay:3s;"></span>
+<span style="left:50%; animation-duration:3s; animation-delay:2s;"></span>
+</div>
+
+<h2 class="text-4xl font-bold mb-14 text-green-400 fade-up relative z-10">
+🌙 Ramadhan & Bukber
+</h2>
+
+<!-- GRID -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+  <img src="image/bukber1.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber2.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber3.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber4.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber5.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber6.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber7.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber8.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber9.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber10.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber11.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber12.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber13.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/bukber14.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+</div>
+</section>
+<!-- ================= TAHUN BARU ================= -->
+<section class="relative px-6 md:px-20 py-24 bg-gradient-to-b from-black to-blue-900/20 overflow-hidden">
+
+  <!-- 🔥 BACKGROUND FIREWORK -->
+  <div class="absolute inset-0 pointer-events-none z-0">
+
+    <div class="firework" style="top:20%; left:30%; animation-delay:0s;"></div>
+    <div class="firework" style="top:40%; left:70%; animation-delay:1s;"></div>
+    <div class="firework" style="top:60%; left:50%; animation-delay:2s;"></div>
+    <div class="firework" style="top:30%; left:80%; animation-delay:1.5s;"></div>
+
+  </div>
+
+  <!-- ✅ SEMUA KONTEN MASUK SINI -->
+  <div class="relative z-10">
+
+    <h2 class="text-4xl font-bold mb-14 text-blue-400 fade-up">
+      🎆 Tahun Baru
+    </h2>
+
+    <!-- GRID -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      <img src="image/tahunbaru1.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+      <img src="image/tahunbaru2.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+      <img src="image/tahunbaru3.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+      <img src="image/tahunbaru4.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+    </div>
+    
+
+  </div>
+
+</section>
+
+<!-- ================= RANDOM ================= -->
+<section class="px-6 md:px-20 py-24 bg-gradient-to-b from-black to-purple-900/20">
+
+<h2 class="text-4xl font-bold mb-14 text-purple-400 fade-up">
+📸 Random Moments 2024
+</h2>
+
+<!-- GRID -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+  <img src="image/agustus1.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/agustus2.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/agustus3.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/agustus4.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/agustus6.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/agustus7.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/agustus8.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+  <img src="image/agustus9.jpeg" onclick="openImage(this.src)" class="rounded-xl cursor-pointer hover:scale-110 transition">
+</div>
+
+<!-- SLIDER (LUAR GRID) -->
+<div class="scroll-x">
+  <img src="image/kenangan1.jpeg" onclick="openImage(this.src)">
+  <img src="image/kenangan2.jpeg" onclick="openImage(this.src)">
+  <img src="image/kenangan3.jpeg" onclick="openImage(this.src)">
+  <img src="image/kenangan4.jpeg" onclick="openImage(this.src)">
+  <img src="image/kenangan5.jpeg" onclick="openImage(this.src)">
+  <img src="image/kenangan6.jpeg" onclick="openImage(this.src)">
+</div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 text-center border-t border-white/10">
+  <h2 class="text-xl font-bold mb-2">Eight Force</h2>
+  <p class="text-gray-400 text-sm">Kenangan tidak akan pernah hilang.</p>
+</footer>
+
+<script>
+// ================= NAVBAR TOGGLE =================
+// buka sidebar
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+const closeBtn = document.getElementById("closeBtn");
+
+menuBtn.onclick = () => {
+  sidebar.style.left = "0";
+};
+
+// tutup sidebar
+closeBtn.onclick = () => {
+  sidebar.style.left = "-100%";
+};
+
+
+// ================= ANIMASI SCROLL =================
+// munculin elemen pas discroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('show');
+    }
+  })
+});
+
+// aktifin ke semua elemen fade-up
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+
+// ================= LIGHTBOX =================
+// buka gambar fullscreen
+function openImage(src) {
+  const box = document.getElementById("lightbox");
+  const img = document.getElementById("lightbox-img");
+
+  box.classList.remove("hidden");
+  box.classList.add("flex");
+
+  img.src = src;
+}
+
+// tutup lightbox
+function closeLightbox() {
+  const box = document.getElementById("lightbox");
+  box.classList.add("hidden");
+  box.classList.remove("flex");
+}
+</script>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50">
+  <span onclick="closeLightbox()" class="absolute top-5 right-8 text-4xl cursor-pointer">&times;</span>
+  <img id="lightbox-img" class="max-w-[90%] max-h-[80%] rounded-xl">
+</div>
+
+</body>
+</html>
